@@ -22,39 +22,42 @@ class HomePage extends StatelessWidget {
         children: [
           // Background Image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/bg.jpg'), // Update path
-                fit: BoxFit.cover,
+                image: AssetImage('assets/images/bg.jpg'),
+                fit: BoxFit.cover
               ),
             ),
           ),
           // Content Overlay
-          Center(
-            child: Column(
+         
+         Positioned(
+          left:800 ,
+          child:  Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
+               const Text(
                   'Welcome to the Music App',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20),
+               const  SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     // Add your navigation or functionality here
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.redAccent,
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: Text(
+                  child:const Text(
                     'Get Started',
                     style: TextStyle(
                       color: Colors.white,
@@ -64,7 +67,8 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          )
+           
         ],
       ),
     );
