@@ -14,7 +14,6 @@ class Home extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // Image de fond
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -23,17 +22,14 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
-          // Overlay sombre
           Container(
-            color: Colors.black.withOpacity(0.7), // Overlay sombre
+            color: Colors.black.withOpacity(0.7), 
           ),
-          // Contenu centré
           Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Centrer verticalement
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Texte de bienvenue en deux lignes
                 const Text(
                   'Bienvenue sur',
                   style: TextStyle(
@@ -57,21 +53,21 @@ class Home extends StatelessWidget {
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
-                    // Ajouter votre fonctionnalité de lecture de musique ici
+                    
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffff735c),
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20), // Augmenter le padding
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20), 
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   child:const  Row(
-                    mainAxisSize: MainAxisSize.min, // Pour que le bouton s'adapte au contenu
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children:  [
-                      Icon(Icons.play_arrow, color: Colors.white), // Icône de lecture
-                      SizedBox(width: 8), // Espace entre l'icône et le texte
+                      Icon(Icons.play_arrow, color: Colors.white), 
+                      SizedBox(width: 8),
                       Text(
                         'Play Music',
                         style: TextStyle(
@@ -85,7 +81,6 @@ class Home extends StatelessWidget {
                 const SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: () {
-                    // Ajouter votre fonctionnalité de lecture de vidéo ici
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
@@ -98,8 +93,8 @@ class Home extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min, // Pour que le bouton s'adapte au contenu
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.play_arrow, color: Colors.white), // Icône de lecture
-                      SizedBox(width: 8), // Espace entre l'icône et le texte
+                      Icon(Icons.play_arrow, color: Colors.white), 
+                      SizedBox(width: 8), 
                       Text(
                         'Play Video',
                         style: TextStyle(

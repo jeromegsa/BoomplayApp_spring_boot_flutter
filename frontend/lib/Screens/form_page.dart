@@ -3,14 +3,14 @@ import 'package:frontend/Screens/delayedAnimation.dart';
 
 
 
-class MyForm extends StatefulWidget {
-  const MyForm({super.key});
+class FormPage extends StatefulWidget {
+  const FormPage({super.key});
 
   @override
-  MyFormState createState() => MyFormState();
+  FormPageState createState() => FormPageState();
 }
 
-class MyFormState extends State<MyForm> {
+class FormPageState extends State<FormPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 

@@ -1,6 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/delayedAnimation.dart';
-import 'package:frontend/Screens/home_page.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(190),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.redAccent,
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(20),
+              top: Radius.circular(5),
+            ),
+          ),
+          child: AppBar(
+            title: const Center(
+              child: Text(
+                'BOOM PLAY',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            toolbarHeight: 190,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 100),
+                Center( // Centrer le texte ici
+                  child: Text(
+                    'Votre plateforme de musique préférée, connectez-vous et amusez-vous!',
+                    textAlign: TextAlign.center, // Aligner le texte au centre
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MyForm(),
+        ],
+      ),
+    );
+  }
+}
 
 class MyForm extends StatefulWidget {
   const MyForm({super.key});
@@ -30,7 +87,7 @@ class MyFormState extends State<MyForm> {
       if (recupEmail == person.email && recupPassword == person.password) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => const MyForm()),
         );
         return;
       }
