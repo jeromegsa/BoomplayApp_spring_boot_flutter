@@ -10,43 +10,37 @@ import 'Screens/home.dart';
 // import 'Screens/play_video.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Boomplay',
+      title: 'Mon Application',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.red,
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const Home(),
+        '/': (context) => const Home(), // Remplacez par votre widget de démarrage
         '/login': (context) => const MyForm(),
-        // '/signup': (context) => const SignupPage(),
-        // '/musics': (context) => const MusicListPage(),
-        // '/videos': (context) => const VideoListPage(),
-        // '/play-music': (context) => const PlayMusicPage(),
-        // '/play-video': (context) => const PlayVideoPage(),
       },
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+// class HomePage extends StatelessWidget {
+//   const HomePage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Boomplay Home'),
-        backgroundColor: const Color(0xffff735c),
-      ),
-    );
-}
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Boomplay Home'),
+//         backgroundColor: const Color(0xffff735c),
+//       ),
+//     );
+// }
+// }
