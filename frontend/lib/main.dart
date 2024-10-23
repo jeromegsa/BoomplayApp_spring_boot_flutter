@@ -1,45 +1,63 @@
 import 'package:flutter/material.dart';
-
+import 'package:frontend/services/auth_service.dart';
 import 'Screens/form_page.dart';
 import 'Screens/home.dart';
-// import 'Screens/signup.dart';
-// import 'Screens/music_list.dart';
-// import 'Screens/video_list.dart';
-// import 'Screens/play_music.dart';
-// import 'Screens/play_video.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mon Application',
+      title: 'BoomPlay',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => const Home(), // Remplacez par votre widget de démarrage
         '/login': (context) => const MyForm(),
+        '/': (context) => const AuthGuard(child: Home()),
       },
     );
   }
 }
 
-// class HomePage extends StatelessWidget {
-//   const HomePage({super.key});
+class AuthGuard extends StatelessWidget {
+  final Widget child;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Boomplay Home'),
-//         backgroundColor: const Color(0xffff735c),
-//       ),
-//     );
-// }
-// }
+  const AuthGuard({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: AuthService().isLoggedIn(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        // Si l'utilisateur est connecté
+        if (snapshot.hasData && snapshot.data == true) {
+          return child; // Afficher la page protégée
+        } else {
+          // L'utilisateur n'est pas connecté
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final route = ModalRoute.of(context)?.settings.name;
+
+            // Rediriger vers la page de connexion si ce n'est pas déjà la page de connexion
+            if (route != '/login') {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MyForm()),
+              );
+            }
+          });
+          return const Center(
+              child: Text('Accès refusé, redirection vers la connexion...'));
+        }
+      },
+    );
+  }
+}
