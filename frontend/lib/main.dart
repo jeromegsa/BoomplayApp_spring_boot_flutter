@@ -1,6 +1,5 @@
+import "package:frontend/Screens/home.dart";
 import 'package:flutter/material.dart';
-import 'package:frontend/Screens/home_page.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -10,14 +9,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(    
-   
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return const MaterialApp(
+      title: 'Boomplay ',
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xffff735c)
       ),
-      home: const HomePage(),
+      body: const home(),
     );
   }
 }
