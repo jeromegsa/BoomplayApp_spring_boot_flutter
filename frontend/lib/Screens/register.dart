@@ -1,46 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/delayedAnimation.dart';
-import 'package:frontend/Screens/home.dart';
+import 'package:frontend/Screens/form_page.dart';
 
-class FormPage extends StatelessWidget {
-  const FormPage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-     
-      body:  Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          MyForm(),
+          Register(),
         ],
       ),
     );
   }
 }
 
-class MyForm extends StatefulWidget {
-  const MyForm({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  MyFormState createState() => MyFormState();
+  RegisterState createState() => RegisterState();
 }
 
-class MyFormState extends State<MyForm> {
+class RegisterState extends State<Register> {
+  final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
   void dispose() {
+    usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
   final _formKey = GlobalKey<FormState>();
-
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +55,8 @@ class MyFormState extends State<MyForm> {
           ),
         ),
         toolbarHeight: 190,
-        backgroundColor: const Color(0xffff735c), // Couleur appliquée ici
-        flexibleSpace:const Column(
+        backgroundColor: const Color(0xffff735c),
+        flexibleSpace: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 100),
@@ -98,7 +96,7 @@ class MyFormState extends State<MyForm> {
                         const DelayedAnimation(
                           delay: 5000,
                           child: Text(
-                            'Login',
+                            'Register',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -112,20 +110,17 @@ class MyFormState extends State<MyForm> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              controller: emailController,
+                              controller: usernameController,
                               decoration: InputDecoration(
-                                labelText: 'Email',
-                                prefixIcon: const Icon(Icons.mail,
-                                    color: Colors.redAccent),
+                                labelText: 'Username',
+                                prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -133,7 +128,37 @@ class MyFormState extends State<MyForm> {
                               style: const TextStyle(color: Colors.black),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Veuillez entrer un texte';
+                                  return 'Veuillez entrer un nom d\'utilisateur';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                        DelayedAnimation(
+                          delay: 1000,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                                prefixIcon: const Icon(Icons.mail, color: Colors.redAccent),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                              style: const TextStyle(color: Colors.black),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Veuillez entrer un email';
                                 }
                                 return null;
                               },
@@ -148,17 +173,14 @@ class MyFormState extends State<MyForm> {
                               controller: passwordController,
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                prefixIcon: const Icon(Icons.lock,
-                                    color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -166,7 +188,7 @@ class MyFormState extends State<MyForm> {
                               style: const TextStyle(color: Colors.black),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Veuillez entrer un texte';
+                                  return 'Veuillez entrer un mot de passe';
                                 }
                                 return null;
                               },
@@ -183,11 +205,11 @@ class MyFormState extends State<MyForm> {
                               minimumSize: const Size(300, 50),
                             ),
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
+                               if (_formKey.currentState!.validate()) {
                                 // Navigation vers la page MyForm
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) =>const Home()),
+                                  MaterialPageRoute(builder: (context) =>const MyForm()),
                                 );
                               }
                             },
@@ -197,15 +219,10 @@ class MyFormState extends State<MyForm> {
                               children: [
                                 Text(
                                   'Soumettre',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(width: 8),
-                                Icon(
-                                  Icons.send,
-                                  color: Colors.white,
-                                ),
+                                Icon(Icons.send, color: Colors.white),
                               ],
                             ),
                           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'Screens/form_page.dart';
+import 'package:frontend/Screens/form_page.dart';
+import 'package:frontend/Screens/register.dart';
 import 'Screens/home.dart';
 // import 'Screens/signup.dart';
 // import 'Screens/music_list.dart';
@@ -14,6 +14,8 @@ void main() {
 
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const Home(), // Remplacez par votre widget de démarrage
         '/login': (context) => const MyForm(),
+        '/register': (context) => const Register(),
       },
     );
   }
