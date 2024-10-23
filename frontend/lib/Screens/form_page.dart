@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/delayedAnimation.dart';
-import 'package:frontend/Screens/home.dart';
+import 'package:frontend/services/auth_service.dart';
 
-class FormPage extends StatelessWidget {
-  const FormPage({super.key});
+class LoginForm extends StatelessWidget {
+  const LoginForm({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-     
-      body:  Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           MyForm(),
@@ -29,6 +28,7 @@ class MyForm extends StatefulWidget {
 class MyFormState extends State<MyForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final AuthService _authService = AuthService(); // Instance du service
 
   @override
   void dispose() {
@@ -38,9 +38,6 @@ class MyFormState extends State<MyForm> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +55,7 @@ class MyFormState extends State<MyForm> {
         ),
         toolbarHeight: 190,
         backgroundColor: const Color(0xffff735c), // Couleur appliquée ici
-        flexibleSpace:const Column(
+        flexibleSpace: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 100),
@@ -182,13 +179,40 @@ class MyFormState extends State<MyForm> {
                               backgroundColor: Colors.redAccent,
                               minimumSize: const Size(300, 50),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                // Navigation vers la page MyForm
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) =>const Home()),
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Traitement des données'),
+                                  ),
                                 );
+
+                                // Authentification
+                                bool success = await _authService.login(
+                                  emailController.text,
+                                  passwordController.text,
+                                );
+
+                                // Utilisez setState pour mettre à jour l'état
+                                setState(() {
+                                  if (success) {
+                                    // Redirection ou actions après connexion réussie
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Connexion réussie !'),
+                                      ),
+                                    );
+                                    Navigator.pushReplacementNamed(
+                                        context, '/');
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Identifiants incorrects'),
+                                      ),
+                                    );
+                                  }
+                                });
                               }
                             },
                             child: const Row(
