@@ -49,7 +49,7 @@ public class DataGeneratorService {
             for (int j = 0; j < musicCount; j++) {
                 Music music = new Music();
                
-                music.setTitle(faker.lorem().words(3).toString()); 
+                music.setTitle(faker.book().title()); 
 
                 music.setArtist(faker.artist().name());
                 music.setCategory(faker.music().genre());
@@ -66,7 +66,7 @@ public class DataGeneratorService {
         for (User user : users) {
             for (int k = 0; k < videoCount; k++) {
                 Video video = new Video();
-                video.setTitle(faker.lorem().words(3).toString()); 
+                video.setTitle(faker.book().title()); 
                 video.setUrl(faker.internet().url());
                 video.setCategory(faker.company().bs());
                 video.setDuration(faker.number().numberBetween(300, 900)); 

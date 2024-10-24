@@ -1,133 +1,120 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/model/music.dart';
+import 'package:frontend/services/api_service.dart';
 
 class MusicList extends StatelessWidget {
+  final ApiService apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundImage: AssetImage('assets/images/profile.jpg'), // Votre image ici
-          ),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Lovestruck',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'Jane Doe feat Dolor',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.menu, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: ListView(
-                children: [
-                  const SizedBox(height: 20),
-                  Text(
-                    'Your Playlist',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    '34 songs - 125 min',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  buildPlaylistItem('Sweet Caroline', 'Lorem feat Ipsum', true),
-                  buildPlaylistItem('Devil', 'Lorem rock band', false, isPlaying: true),
-                  buildPlaylistItem('Heartbeat', 'Lorem feat D.A.', false),
-                  buildPlaylistItem('Sweet Caroline', 'Lorem feat Ipsum', true),
-                  buildPlaylistItem('Devil', 'Lorem rock band', false),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Center(
+     
+      body: FutureBuilder<List<Music>>(
+        future: apiService.getMusics(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No music found.'));
+          }
+
+          List<Music> musics = snapshot.data!;
+
+          return Column(
+            children: [
+              const Padding(
+                
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
                 child: Text(
-                  'NOW PLAYING',
+                  'Musics',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
+                   
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  '${musics.length} songs - ${calculateTotalDuration(musics)} min',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: musics.length,
+                  itemBuilder: (context, index) {
+                    return buildPlaylistItem(
+                      musics[index].title,
+                      musics[index].artist,
+                      false,
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: Colors.pinkAccent,
-        child: Icon(Icons.pause, size: 30),
+        backgroundColor: const Color(0xffff735c),
+        child: const Icon(Icons.pause, size: 30, color: Colors.white),
       ),
     );
   }
 
   Widget buildPlaylistItem(String title, String subtitle, bool isFavorite, {bool isPlaying = false}) {
-    return ListTile(
-      leading: Icon(
-        Icons.play_circle_fill,
-        color: isPlaying ? Colors.pinkAccent : Colors.grey,
-        size: 40,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontWeight: isPlaying ? FontWeight.bold : FontWeight.normal,
-          fontSize: 18,
-        ),
-      ),
-      subtitle: Text(subtitle),
-      trailing: Icon(
-        isFavorite ? Icons.favorite : Icons.favorite_border,
-        color: isFavorite ? Colors.pinkAccent : Colors.grey,
-      ),
-      tileColor: isPlaying ? Colors.blueGrey.shade50 : Colors.transparent,
-      shape: RoundedRectangleBorder(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
+        color: isPlaying ? Colors.blueGrey.shade50 : Colors.white,
+        boxShadow: isPlaying
+            ? [
+                const BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 4.0,
+                  offset:  Offset(0, 2),
+                ),
+              ]
+            : [],
       ),
-      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+      child: ListTile(
+        leading: Icon(
+          Icons.play_circle_fill,
+          color: isPlaying ? Colors.pinkAccent : Colors.grey,
+          size: 40,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: isPlaying ? FontWeight.bold : FontWeight.normal,
+            fontSize: 18,
+          ),
+        ),
+        subtitle: Text(subtitle),
+        trailing: Icon(
+          isFavorite ? Icons.favorite : Icons.favorite_border,
+          color: isFavorite ? Colors.pinkAccent : Colors.grey,
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      ),
     );
   }
+
+  String calculateTotalDuration(List<Music> musics) {
+  // Calculer la somme des durées
+  int totalDuration = musics.fold(0, (sum, music) => sum + music.duration);
+
+  return totalDuration.toString(); // Retourne la durée totale sous forme de chaîne
+}
+
 }

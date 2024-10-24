@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:frontend/model/music.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -13,6 +14,15 @@ class ApiService {
     } else {
       throw Exception('Failed to load data');
     }
+  }
+    Future<List<Music>> getMusics() async {
+    // Appel de getAllData pour obtenir toutes les données
+    final data = await getAllData();
+
+    // Extraire la liste des musiques
+    List<dynamic> jsonList = data['musics']; // Ajustez selon la structure de votre JSON
+    // Convertir chaque élément du JSON en objet Music
+    return jsonList.map((json) => Music.fromJson(json)).toList();
   }
 
 
