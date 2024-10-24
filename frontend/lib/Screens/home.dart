@@ -86,7 +86,7 @@ class Home extends StatelessWidget {
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
-                    // Ajouter votre fonctionnalité de lecture de musique ici
+                      Navigator.pushReplacementNamed(context, '/list-music');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffff735c),

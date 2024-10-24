@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/delayedAnimation.dart';
 import 'package:frontend/Screens/form_page.dart';
+import 'package:frontend/services/auth_service.dart'; // Assurez-vous d'importer AuthService
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -29,6 +30,7 @@ class RegisterState extends State<Register> {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final AuthService authService = AuthService(); // Instance de AuthService
 
   @override
   void dispose() {
@@ -204,13 +206,29 @@ class RegisterState extends State<Register> {
                               backgroundColor: Colors.redAccent,
                               minimumSize: const Size(300, 50),
                             ),
-                            onPressed: () {
-                               if (_formKey.currentState!.validate()) {
-                                // Navigation vers la page MyForm
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) =>const MyForm()),
-                                );
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                try {
+                                  await authService.registerUser(
+                                    usernameController.text,
+                                    emailController.text,
+                                    passwordController.text,
+                                  );
+                                  // Afficher un message de succès
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Utilisateur créé avec succès!')),
+                                  );
+                                  // Optionnel : Naviguer vers une autre page ou réinitialiser le formulaire
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const MyForm()),
+                                  );
+                                } catch (e) {
+                                  // Afficher un message d'erreur
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Erreur : ${e.toString()}')),
+                                  );
+                                }
                               }
                             },
                             child: const Row(

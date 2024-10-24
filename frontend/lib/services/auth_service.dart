@@ -2,9 +2,11 @@ import 'package:frontend/services/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
+
+    final ApiService apiService = ApiService();
   Future<bool> login(String email, String password) async {
     ApiService apiService = ApiService();
-    List<dynamic> users = await apiService.getUsers();
+    List<dynamic> users = await apiService.getUsers();    
 
     for (var user in users) {
       if (user['email'] == email && user['password'] == password) {
@@ -13,7 +15,7 @@ class AuthService {
         return true;
       }
     }
-    return false; // Authentification échouée
+    return false; 
   }
 
   // Fonction pour sauvegarder l'état de connexion
@@ -27,7 +29,7 @@ class AuthService {
   Future<bool> isLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('isLoggedIn') ??
-        false; // Vérifier si l'utilisateur est connecté
+        false;
   }
 
   // Déconnexion
@@ -38,5 +40,20 @@ class AuthService {
     } catch (e) {
       print('Erreur lors de la déconnexion: $e');
     }
+  }
+
+
+
+
+  // Méthode pour l'inscription
+  Future<void> registerUser(String username, String email, String password) async {
+    Map<String, dynamic> newUser = {
+     'username': username,
+      'email': email,
+      'password': password,
+      
+    };
+
+    await apiService.addUser(newUser);
   }
 }

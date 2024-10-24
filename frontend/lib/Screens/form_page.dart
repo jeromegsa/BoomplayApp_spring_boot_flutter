@@ -28,7 +28,7 @@ class MyForm extends StatefulWidget {
 class MyFormState extends State<MyForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final AuthService _authService = AuthService(); // Instance du service
+  final AuthService _authService = AuthService(); 
 
   @override
   void dispose() {
@@ -54,7 +54,7 @@ class MyFormState extends State<MyForm> {
           ),
         ),
         toolbarHeight: 190,
-        backgroundColor: const Color(0xffff735c), // Couleur appliquée ici
+        backgroundColor: const Color(0xffff735c),
         flexibleSpace: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -73,7 +73,7 @@ class MyFormState extends State<MyForm> {
         ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(20),
+            bottom: Radius.circular(30),
           ),
         ),
       ),
