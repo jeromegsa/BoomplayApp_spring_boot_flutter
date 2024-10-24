@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AuthService {
+
+    final ApiService apiService = ApiService();
   Future<bool> login(String email, String password) async {
     ApiService apiService = ApiService();
     try {
@@ -46,7 +48,7 @@ class AuthService {
   Future<bool> isLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('isLoggedIn') ??
-        false; // Vérifier si l'utilisateur est connecté
+        false;
   }
 }
 

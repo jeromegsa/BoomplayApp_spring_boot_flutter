@@ -16,8 +16,8 @@ class ApiService {
   }
 
 
-
-  Future<List<dynamic>> getUsers() async {
+//Methode pour recuperer tous les utilisateurs depuis ma base de donnee
+ Future<List<dynamic>>  getUsers() async {
     final response = await http.get(Uri.parse('$baseUrl/users'));
 
     if (response.statusCode == 200) {
@@ -26,6 +26,44 @@ class ApiService {
       throw Exception('Failed to load users');
     }
   }
+
+   // Methode pour ajouter un utilisateur 
+  Future<void> addUser(Map<String, dynamic> user) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/users'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode(user),
+  );
+
+  if (response.statusCode != 200 && response.statusCode != 201) {
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}'); 
+  throw Exception('Échec de l\'ajout de l\'utilisateur');
+} else {
+  print('Utilisateur ajouté avec succès: ${response.body}');
+}
+
+}
+
+
+
+// Méthode pour l'inscription
+
+
+ static Future<void> registerUser(String username, String email, String password) async {
+    Map<String, dynamic> newUser = {
+     'username': username,
+      'email': email,
+      'password': password,
+      
+    };
+
+     ApiService apiService = ApiService();  
+  await apiService.addUser(newUser);
+  }
+
+
+
 }
 
 

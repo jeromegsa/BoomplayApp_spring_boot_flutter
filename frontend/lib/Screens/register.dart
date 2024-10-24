@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/delayedAnimation.dart';
-import 'package:frontend/services/auth_service.dart';
+import 'package:frontend/Screens/form_page.dart';
+import 'package:frontend/services/api_service.dart';
+import 'package:frontend/services/auth_service.dart'; // Assurez-vous d'importer AuthService
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,27 +13,29 @@ class LoginForm extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          MyForm(),
+          Register(),
         ],
       ),
     );
   }
 }
 
-class MyForm extends StatefulWidget {
-  const MyForm({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  MyFormState createState() => MyFormState();
+  RegisterState createState() => RegisterState();
 }
 
-class MyFormState extends State<MyForm> {
+class RegisterState extends State<Register> {
+  final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final AuthService _authService = AuthService(); 
+  final AuthService authService = AuthService(); // Instance de AuthService
 
   @override
   void dispose() {
+    usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -73,7 +77,7 @@ class MyFormState extends State<MyForm> {
         ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
+            bottom: Radius.circular(20),
           ),
         ),
       ),
@@ -95,7 +99,7 @@ class MyFormState extends State<MyForm> {
                         const DelayedAnimation(
                           delay: 5000,
                           child: Text(
-                            'Login',
+                            'Register',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -109,20 +113,17 @@ class MyFormState extends State<MyForm> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              controller: emailController,
+                              controller: usernameController,
                               decoration: InputDecoration(
-                                labelText: 'Email',
-                                prefixIcon: const Icon(Icons.mail,
-                                    color: Colors.redAccent),
+                                labelText: 'Username',
+                                prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -130,7 +131,37 @@ class MyFormState extends State<MyForm> {
                               style: const TextStyle(color: Colors.black),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Veuillez entrer un texte';
+                                  return 'Veuillez entrer un nom d\'utilisateur';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                        DelayedAnimation(
+                          delay: 1000,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                                prefixIcon: const Icon(Icons.mail, color: Colors.redAccent),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                              style: const TextStyle(color: Colors.black),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Veuillez entrer un email';
                                 }
                                 return null;
                               },
@@ -145,17 +176,14 @@ class MyFormState extends State<MyForm> {
                               controller: passwordController,
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                prefixIcon: const Icon(Icons.lock,
-                                    color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -163,7 +191,7 @@ class MyFormState extends State<MyForm> {
                               style: const TextStyle(color: Colors.black),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Veuillez entrer un texte';
+                                  return 'Veuillez entrer un mot de passe';
                                 }
                                 return null;
                               },
@@ -181,38 +209,27 @@ class MyFormState extends State<MyForm> {
                             ),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Traitement des données'),
-                                  ),
-                                );
-
-                                // Authentification
-                                bool success = await _authService.login(
-                                  emailController.text,
-                                  passwordController.text,
-                                );
-
-                                // Utilisez setState pour mettre à jour l'état
-                                setState(() {
-                                  if (success) {
-                                    // Redirection ou actions après connexion réussie
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Connexion réussie !'),
-                                      ),
-                                    );
-                                    Navigator.pushReplacementNamed(
-                                        context, '/');
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('Identifiants incorrects'),
-                                      ),
-                                    );
-                                  }
-                                });
+                                try {
+                                  await ApiService.registerUser(
+                                    usernameController.text,
+                                    emailController.text,
+                                    passwordController.text,
+                                  );
+                                  // Afficher un message de succès
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Utilisateur créé avec succès!')),
+                                  );
+                                  // Optionnel : Naviguer vers une autre page ou réinitialiser le formulaire
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const MyForm()),
+                                  );
+                                } catch (e) {
+                                  // Afficher un message d'erreur
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Erreur : ${e.toString()}')),
+                                  );
+                                }
                               }
                             },
                             child: const Row(
@@ -221,15 +238,10 @@ class MyFormState extends State<MyForm> {
                               children: [
                                 Text(
                                   'Soumettre',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(width: 8),
-                                Icon(
-                                  Icons.send,
-                                  color: Colors.white,
-                                ),
+                                Icon(Icons.send, color: Colors.white),
                               ],
                             ),
                           ),
