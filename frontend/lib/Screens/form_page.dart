@@ -18,14 +18,14 @@ class LoginForm extends StatelessWidget {
   }
 }
 
-class FormPage extends StatefulWidget {
-  const FormPage({super.key});
+class MyForm extends StatefulWidget {
+  const MyForm({super.key});
 
   @override
-  FormPageState createState() => FormPageState();
+  MyFormState createState() => MyFormState();
 }
 
-class FormPageState extends State<FormPage> {
+class MyFormState extends State<MyForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final AuthService _authService = AuthService(); // Instance du service
