@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/form_page.dart';
-import 'package:frontend/Screens/list_musique.dart';
 import 'package:frontend/Screens/register.dart';
 import 'Screens/home.dart';
 // import 'Screens/signup.dart';
@@ -28,8 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const Home(), 
         '/login': (context) => const MyForm(),
-        '/register': (context) => const Register(),
-        '/music-list':(context)=> const MusicListPage()
+        '/register': (context) => const Register(),       
       },
     );
   }
