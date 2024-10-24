@@ -17,7 +17,7 @@ class ApiService {
 
 
 //Methode pour recuperer tous les utilisateurs depuis ma base de donnee
-  Future<List<dynamic>> getUsers() async {
+ Future<List<dynamic>>  getUsers() async {
     final response = await http.get(Uri.parse('$baseUrl/users'));
 
     if (response.statusCode == 200) {
@@ -44,6 +44,23 @@ class ApiService {
 }
 
 }
+
+
+
+// Méthode pour l'inscription
+
+
+ static Future<void> registerUser(String username, String email, String password) async {
+    Map<String, dynamic> newUser = {
+     'username': username,
+      'email': email,
+      'password': password,
+      
+    };
+
+     ApiService apiService = ApiService();  
+  await apiService.addUser(newUser);
+  }
 
 
 

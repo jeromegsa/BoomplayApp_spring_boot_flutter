@@ -44,16 +44,5 @@ class AuthService {
 
 
 
-
-  // Méthode pour l'inscription
-  Future<void> registerUser(String username, String email, String password) async {
-    Map<String, dynamic> newUser = {
-     'username': username,
-      'email': email,
-      'password': password,
-      
-    };
-
-    await apiService.addUser(newUser);
-  }
+  
 }

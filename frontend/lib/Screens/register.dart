@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/delayedAnimation.dart';
 import 'package:frontend/Screens/form_page.dart';
+import 'package:frontend/services/api_service.dart';
 import 'package:frontend/services/auth_service.dart'; // Assurez-vous d'importer AuthService
 
 class HomePage extends StatelessWidget {
@@ -209,7 +210,7 @@ class RegisterState extends State<Register> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 try {
-                                  await authService.registerUser(
+                                  await ApiService.registerUser(
                                     usernameController.text,
                                     emailController.text,
                                     passwordController.text,
