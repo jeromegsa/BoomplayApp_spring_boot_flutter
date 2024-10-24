@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/Screens/add_music.dart';
 import 'package:frontend/Screens/music_list.dart';
 import 'package:frontend/services/auth_service.dart';
 
@@ -6,6 +7,7 @@ import 'Screens/form_page.dart';
 import 'Screens/home.dart';
 
 void main() {
+   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -24,8 +26,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const MyForm(),
         '/': (context) => const AuthGuard(child: Home()),
-        '/musics': (context) =>  AuthGuard(child: MusicList()),
-        // '/music_play': (context) =>  AuthGuard(child: AudioPlayerApp()),
+        '/musics': (context) => AuthGuard(child: MusicList()),
+        '/add-music': (context) => AuthGuard(child: AddMusicScreen()),
       },
     );
   }
