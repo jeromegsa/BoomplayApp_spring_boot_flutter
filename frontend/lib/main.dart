@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Screens/form_page.dart';
-import 'package:frontend/Screens/register.dart';
+import 'package:frontend/Screens/music_list.dart';
+import 'package:frontend/services/auth_service.dart';
+
+import 'Screens/form_page.dart';
 import 'Screens/home.dart';
-// import 'Screens/signup.dart';
-// import 'Screens/music_list.dart';
-// import 'Screens/video_list.dart';
-// import 'Screens/play_music.dart';
-// import 'Screens/play_video.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -19,30 +15,49 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mon Application',
+      debugShowCheckedModeBanner: false,
+      title: 'BoomPlay',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => const Home(), 
         '/login': (context) => const MyForm(),
-        '/register': (context) => const Register(),       
+        '/': (context) => const AuthGuard(child: Home()),
+        '/musics': (context) =>  AuthGuard(child: MusicList()),
       },
     );
   }
 }
 
-// class HomePage extends StatelessWidget {
-//   const HomePage({super.key});
+class AuthGuard extends StatelessWidget {
+  final Widget child;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Boomplay Home'),
-//         backgroundColor: const Color(0xffff735c),
-//       ),
-//     );
-// }
-// }
+  const AuthGuard({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: AuthService().isLoggedIn(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasData && snapshot.data == true) {
+          // L'utilisateur est connecté, continuer
+          return child;
+        } else {
+          // Redirection après que la frame actuelle a été dessinée
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            // Vérifier que nous ne sommes pas déjà sur la page de connexion
+            if (ModalRoute.of(context)?.settings.name != '/login') {
+              Navigator.of(context).pushReplacementNamed('/login');
+            }
+          });
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+}

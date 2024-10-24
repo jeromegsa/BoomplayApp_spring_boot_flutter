@@ -1,14 +1,14 @@
-// ignore: file_names
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
 
 class DelayedAnimation extends StatefulWidget {
   final Widget child;
   final int delay;
+
   const DelayedAnimation({super.key, required this.delay, required this.child});
 
   @override
-  // ignore: library_private_types_in_public_api
   _DelayedAnimationState createState() => _DelayedAnimationState();
 }
 
@@ -16,10 +16,11 @@ class _DelayedAnimationState extends State<DelayedAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animOffset;
+
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
@@ -36,8 +37,18 @@ class _DelayedAnimationState extends State<DelayedAnimation>
     ).animate(curve);
 
     Timer(Duration(milliseconds: widget.delay), () {
-      _controller.forward();
+      if (mounted) {
+        // Vérification pour éviter d'appeler _controller.forward() si le widget a été démonté
+        _controller.forward();
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    // Libérer les ressources liées à l'animation
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
