@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const MyForm(),
         '/': (context) => const AuthGuard(child: Home()),
         '/musics': (context) =>  AuthGuard(child: MusicList()),
+        // '/music_play': (context) =>  AuthGuard(child: AudioPlayerApp()),
       },
     );
   }

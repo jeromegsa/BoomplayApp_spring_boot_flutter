@@ -24,6 +24,7 @@ public class Video {
     private String url;
     private String category;
     private Integer duration;
+    private String image_url;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
