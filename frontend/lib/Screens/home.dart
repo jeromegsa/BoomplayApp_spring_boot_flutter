@@ -42,7 +42,6 @@ class Home extends StatelessWidget {
           ]),
       body: Stack(
         children: [
-          // Image de fond
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -51,18 +50,15 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
-          // Overlay sombre
           Container(
-            color: Colors.black.withOpacity(0.7), // Overlay sombre
+            color: Colors.black.withOpacity(0.7), 
           ),
-          // Contenu centré
           Center(
             child: Column(
               mainAxisAlignment:
                   MainAxisAlignment.center, // Centrer verticalement
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Texte de bienvenue en deux lignes
                 const Text(
                   'Bienvenue sur',
                   style: TextStyle(
@@ -86,7 +82,7 @@ class Home extends StatelessWidget {
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
-                    // Ajouter votre fonctionnalité de lecture de musique ici
+                    
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffff735c),
@@ -118,7 +114,6 @@ class Home extends StatelessWidget {
                 const SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: () {
-                    // Ajouter votre fonctionnalité de lecture de vidéo ici
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
