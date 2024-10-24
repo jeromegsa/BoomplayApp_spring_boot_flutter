@@ -38,24 +38,18 @@ class AuthGuard extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        // Si l'utilisateur est connecté
         if (snapshot.hasData && snapshot.data == true) {
-          return child; // Afficher la page protégée
+          // L'utilisateur est connecté, continuer
+          return child;
         } else {
-          // L'utilisateur n'est pas connecté
+          // Redirection après que la frame actuelle a été dessinée
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            final route = ModalRoute.of(context)?.settings.name;
-
-            // Rediriger vers la page de connexion si ce n'est pas déjà la page de connexion
-            if (route != '/login') {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const MyForm()),
-              );
+            // Vérifier que nous ne sommes pas déjà sur la page de connexion
+            if (ModalRoute.of(context)?.settings.name != '/login') {
+              Navigator.of(context).pushReplacementNamed('/login');
             }
           });
-          return const Center(
-              child: Text('Accès refusé, redirection vers la connexion...'));
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

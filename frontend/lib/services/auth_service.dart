@@ -1,24 +1,30 @@
 import 'package:frontend/services/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class AuthService {
   Future<bool> login(String email, String password) async {
     ApiService apiService = ApiService();
-    List<dynamic> users = await apiService.getUsers();
+    try {
+      List<dynamic> users = await apiService.getUsers();
 
-    for (var user in users) {
-      if (user['email'] == email && user['password'] == password) {
-        // Si l'utilisateur est authentifié, on sauvegarde l'état de connexion et l'identifiant
-        await saveLoginState(user['id'].toString()); // Convertir en String et sauvegarder l'identifiant
-        return true;
+      for (var user in users) {
+        if (user['email'] == email && user['password'] == password) {
+          await saveLoginState(user['id'].toString());
+          return true;
+        }
       }
+    } catch (e) {
+      print("Erreur lors de l'authentification: $e");
+      // Gérer l'erreur ou renvoyer false
     }
-    return false; // Authentification échouée
+    return false;
   }
 
   // Fonction pour sauvegarder l'état de connexion
   Future<void> saveLoginState(String userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', true); // Enregistrer l'état comme "connecté"
+    await prefs.setBool(
+        'isLoggedIn', true); // Enregistrer l'état comme "connecté"
     await prefs.setString('userId', userId); // Enregistrer l'identifiant
   }
 
@@ -31,7 +37,8 @@ class AuthService {
   // Vérification de l'état de connexion
   Future<bool> isLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isLoggedIn') ?? false; // Vérifier si l'utilisateur est connecté
+    return prefs.getBool('isLoggedIn') ??
+        false; // Vérifier si l'utilisateur est connecté
   }
 
   // Déconnexion
