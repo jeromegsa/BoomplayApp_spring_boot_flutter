@@ -11,12 +11,17 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Configurer le gestionnaire de ressources pour servir les fichiers depuis
-        // votre dossier
+        // Chemin pour les fichiers audio
         registry.addResourceHandler("/musics/**")
-                .addResourceLocations(
-                        "file:C:/Users/jerome.gbossa/Desktop/Highfive-G4/Developpement-web/SPRING/BoomplayApp/boomplay/src/uploads/musics/");
+                .addResourceLocations("file:C:/Users/beni.sonkpian/Documents/BoomplayApp_spring_boot_flutter/boomplay/src/uploads/music/");
 
+        // Chemin pour les images de musique
+        registry.addResourceHandler("/musics/images/**")
+                .addResourceLocations("file:C:/Users/beni.sonkpian/Documents/BoomplayApp_spring_boot_flutter/boomplay/src/uploads/music/images/");
+
+        // Chemin pour les vidéos
+        registry.addResourceHandler("/videos/files/**")
+                .addResourceLocations("file:C:/Users/beni.sonkpian/Documents/BoomplayApp_spring_boot_flutter/boomplay/src/uploads/videos/");
     }
 
     @Bean
@@ -26,7 +31,13 @@ public class WebConfig implements WebMvcConfigurer {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/musics/**") // Appliquer CORS aux fichiers musicaux
                         .allowedOrigins("*") // Remplacez par l'origine de votre application Flutter
-                        .allowedMethods("GET","POST","PUT","DELETE")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*")
+                        .allowCredentials(false);
+                
+                registry.addMapping("/videos/**") // Appliquer CORS aux fichiers vidéo
+                        .allowedOrigins("*") // Remplacez par l'origine de votre application Flutter
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(false);
             }

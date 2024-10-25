@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:frontend/model/music.dart';
+import 'package:frontend/model/videos.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -15,20 +15,26 @@ class ApiService {
       throw Exception('Failed to load data');
     }
   }
-    Future<List<Music>> getMusics() async {
-    // Appel de getAllData pour obtenir toutes les données
-    final data = await getAllData();
 
-    // Extraire la liste des musiques
-    List<dynamic> jsonList = data['musics']; // Ajustez selon la structure de votre JSON
-    print (jsonList);
-    // Convertir chaque élément du JSON en objet Music
+  Future<List<Music>> getMusics() async {
+    final data = await getAllData();
+    List<dynamic> jsonList = data['musics'];
     return jsonList.map((json) => Music.fromJson(json)).toList();
   }
 
+  // Méthode pour récupérer toutes les vidéos
+  Future<List<Video>> getVideos() async {
+    final response = await http.get(Uri.parse('$baseUrl/videos'));
 
-//Methode pour recuperer tous les utilisateurs depuis ma base de donnee
- Future<List<dynamic>>  getUsers() async {
+    if (response.statusCode == 200) {
+      List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((json) => Video.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load videos');
+    }
+  }
+
+  Future<List<dynamic>> getUsers() async {
     final response = await http.get(Uri.parse('$baseUrl/users'));
 
     if (response.statusCode == 200) {
@@ -38,43 +44,30 @@ class ApiService {
     }
   }
 
-   // Methode pour ajouter un utilisateur 
   Future<void> addUser(Map<String, dynamic> user) async {
-  final response = await http.post(
-    Uri.parse('$baseUrl/users'),
-    headers: {'Content-Type': 'application/json'},
-    body: json.encode(user),
-  );
+    final response = await http.post(
+      Uri.parse('$baseUrl/users'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(user),
+    );
 
-  if (response.statusCode != 200 && response.statusCode != 201) {
-  print('Response status: ${response.statusCode}');
-  print('Response body: ${response.body}'); 
-  throw Exception('Échec de l\'ajout de l\'utilisateur');
-} else {
-  print('Utilisateur ajouté avec succès: ${response.body}');
-}
-
-}
-
-
-
-// Méthode pour l'inscription
-
-
- static Future<void> registerUser(String username, String email, String password) async {
-    Map<String, dynamic> newUser = {
-     'username': username,
-      'email': email,
-      'password': password,
-      
-    };
-
-     ApiService apiService = ApiService();  
-  await apiService.addUser(newUser);
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Échec de l\'ajout de l\'utilisateur');
+    } else {
+      print('Utilisateur ajouté avec succès: ${response.body}');
+    }
   }
 
+  static Future<void> registerUser(String username, String email, String password) async {
+    Map<String, dynamic> newUser = {
+      'username': username,
+      'email': email,
+      'password': password,
+    };
 
-
+    ApiService apiService = ApiService();
+    await apiService.addUser(newUser);
+  }
 }
-
-

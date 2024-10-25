@@ -1,17 +1,20 @@
 package com.winner.boomplay.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.winner.boomplay.models.Video;
 import com.winner.boomplay.services.VideoService;
 
+import java.io.File;
 import java.util.List;
 
-@RestController
+@CrossOrigin
 @RequestMapping("/api/videos")
-
+@RestController
 public class VideoController {
     @Autowired
     private VideoService videoService;
@@ -50,5 +53,16 @@ public class VideoController {
         videoService.delete(id);
         return ResponseEntity.noContent().build();
     }
-}
 
+    // Nouvelle méthode pour servir les fichiers vidéo
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<Resource> serveVideo(@PathVariable String filename) {
+        File file = new File("C:/Users/beni.sonkpian/Documents/BoomplayApp_spring_boot_flutter/boomplay/src/uploads/videos/" + filename);
+        if (file.exists()) {
+            Resource resource = new FileSystemResource(file);
+            return ResponseEntity.ok(resource);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}

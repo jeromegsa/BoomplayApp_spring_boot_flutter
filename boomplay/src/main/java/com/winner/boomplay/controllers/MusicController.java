@@ -17,7 +17,7 @@ import java.util.List;
 @CrossOrigin
 public class MusicController {
     @Autowired
-    private MusicService musicService;
+    private MusicService musicService;    
 
     @GetMapping
     public List<Music> getAllMusic() {
