@@ -68,7 +68,7 @@ public class MusicService {
         }
         
         // Extraction de l'extension
-        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        // String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         
         // Création d'un nouveau nom de fichier avec l'extension
         String fileName = System.currentTimeMillis() + "_" + originalFilename;
