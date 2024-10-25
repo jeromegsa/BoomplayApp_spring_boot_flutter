@@ -21,6 +21,7 @@ class ApiService {
 
     // Extraire la liste des musiques
     List<dynamic> jsonList = data['musics']; // Ajustez selon la structure de votre JSON
+    print (jsonList);
     // Convertir chaque élément du JSON en objet Music
     return jsonList.map((json) => Music.fromJson(json)).toList();
   }

@@ -18,8 +18,12 @@ public class MusicService {
     @Autowired
     private MusicRepository musicRepository;
 
-    private final String audioDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\musics"; // Chemin absolu
-    private final String imageDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\musics\\images"; // Chemin absolu
+    // Répertoires où les fichiers sont sauvegardés
+    private final String audioDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\musics";
+    private final String imageDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\musics\\images";
+
+    // URL de base pour l'accès public
+    private final String baseUrl = "http://localhost:8080"; // Remplacez par votre URL réelle si différent
 
     public List<Music> findAll() {
         return musicRepository.findAll();
@@ -35,8 +39,8 @@ public class MusicService {
 
     public Music saveMusicWithFiles(MultipartFile audio, MultipartFile image, String title, String artist, String category, Integer duration) throws IOException {
         // Sauvegarde des fichiers
-        String audioPath = saveFile(audio, audioDirectory);
-        String imagePath = saveFile(image, imageDirectory);
+        String audioUrl = saveFile(audio, audioDirectory, "/musics/");
+        String imageUrl = saveFile(image, imageDirectory, "/musics/images/");
 
         // Création d'un nouvel objet Music
         Music music = new Music();
@@ -44,19 +48,21 @@ public class MusicService {
         music.setArtist(artist);
         music.setCategory(category);
         music.setDuration(duration);
-        music.setUrl(audioPath); // URL du fichier audio
-        music.setImageUrl(imagePath); // URL de l'image
+        music.setUrl(audioUrl); // URL publique du fichier audio
+        music.setImageUrl(imageUrl); // URL publique de l'image
 
         // Sauvegarde de l'objet Music
         return musicRepository.save(music);
     }
 
-    private String saveFile(MultipartFile file, String directory) throws IOException {
+    private String saveFile(MultipartFile file, String directory, String publicPath) throws IOException {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         Path filePath = Paths.get(directory, fileName);
         Files.createDirectories(filePath.getParent()); // Crée les dossiers si nécessaire
         Files.write(filePath, file.getBytes());
-        return filePath.toString(); // Retourne le chemin absolu du fichier sauvegardé
+
+        // Retourne une URL publique basée sur la configuration
+        return baseUrl + publicPath + fileName;
     }
 
     public void delete(Long id) {
