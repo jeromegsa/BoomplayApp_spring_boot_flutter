@@ -16,12 +16,30 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   late int currentIndex;
   bool _isPlaying = false;
+  Duration _currentPosition = Duration.zero;
+  Duration _totalDuration = Duration.zero;
 
   @override
   void initState() {
     super.initState();
     currentIndex = widget.initialIndex;
+
+    // Play the initial music
     _playMusic(widget.musics[currentIndex].url);
+
+    // Listen for position changes
+    _audioPlayer.onPositionChanged.listen((Duration position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    });
+
+    // Listen for duration changes
+    _audioPlayer.onDurationChanged.listen((Duration duration) {
+      setState(() {
+        _totalDuration = duration;
+      });
+    });
   }
 
   void _playMusic(String url) async {
@@ -56,6 +74,11 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
     }
   }
 
+  void _onSliderChanged(double value) {
+    final newPosition = Duration(seconds: (value * _totalDuration.inSeconds).toInt());
+    _audioPlayer.seek(newPosition);
+  }
+
   @override
   void dispose() {
     _audioPlayer.dispose();
@@ -66,6 +89,11 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   Widget build(BuildContext context) {
     final currentMusic = widget.musics[currentIndex];
     
+    // Calculate the slider value based on the current position and total duration
+    double sliderValue = _totalDuration.inSeconds > 0
+        ? _currentPosition.inSeconds / _totalDuration.inSeconds
+        : 0.0;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       body: SafeArea(
@@ -106,10 +134,10 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
               ),
               const SizedBox(height: 30),
 
-              // Progress Bar (This can be updated to show actual progress)
+              // Progress Bar
               Slider(
-                value: 0.0, // You can integrate this with the current playing position
-                onChanged: (value) {},
+                value: sliderValue,
+                onChanged: _onSliderChanged,
                 activeColor: Colors.red,
                 inactiveColor: Colors.grey[300],
               ),
