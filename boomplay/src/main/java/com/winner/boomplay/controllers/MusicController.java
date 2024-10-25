@@ -52,11 +52,7 @@ public class MusicController {
         }
     }
 
-    // Supprimer cette méthode, car elle est redondante
-    // @PostMapping
-    // public Music createMusic(@RequestBody Music music) {
-    //     return musicService.saveMusicWithFiles(music);
-    // }
+   
 
     @PutMapping("/{id}")
     public ResponseEntity<Music> updateMusic(@PathVariable Long id, @RequestBody Music musicDetails) {

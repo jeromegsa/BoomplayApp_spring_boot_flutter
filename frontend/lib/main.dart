@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/Screens/add_music.dart';
 import 'package:frontend/Screens/music_list.dart';
 import 'package:frontend/Screens/register.dart';
 import 'package:frontend/services/auth_service.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const MyForm(),
         '/': (context) => const AuthGuard(child: Home()),
         '/musics': (context) => AuthGuard(child: MusicList()),
+        '/add-music': (context) => AuthGuard(child: UploadMusicScreen()),
         '/register':(context)=> const Register()
         // '/add-music': (context) => AuthGuard(child: AddMusicScreen()),
       },
