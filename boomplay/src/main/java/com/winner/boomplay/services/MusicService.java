@@ -56,14 +56,32 @@ public class MusicService {
     }
 
     private String saveFile(MultipartFile file, String directory, String publicPath) throws IOException {
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        // Vérification si le fichier est vide
+        if (file.isEmpty()) {
+            throw new IOException("Le fichier est vide.");
+        }
+        
+        // Récupération du nom de fichier original et de l'extension
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null || originalFilename.isEmpty()) {
+            throw new IOException("Le nom du fichier est invalide.");
+        }
+        
+        // Extraction de l'extension
+        // String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        
+        // Création d'un nouveau nom de fichier avec l'extension
+        String fileName = System.currentTimeMillis() + "_" + originalFilename;
         Path filePath = Paths.get(directory, fileName);
+        
         Files.createDirectories(filePath.getParent()); // Crée les dossiers si nécessaire
         Files.write(filePath, file.getBytes());
-
+    
         // Retourne une URL publique basée sur la configuration
         return baseUrl + publicPath + fileName;
     }
+    
+    
 
     public void delete(Long id) {
         musicRepository.deleteById(id);

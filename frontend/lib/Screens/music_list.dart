@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Screens/test_music.dart';
+import 'package:frontend/Screens/play_music.dart';
 import 'package:frontend/model/music.dart';
 import 'package:frontend/services/api_service.dart';
 
@@ -12,7 +12,7 @@ class MusicList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:   AppBar(
-        title: const Text('Boomplay Home'),
+        title: const Text('Boomplay Home',style: TextStyle(color: Colors.white),),
         backgroundColor: const Color(0xffff735c),
 
         actions:[

@@ -11,17 +11,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Chemin pour les fichiers audio
+        // Servir les fichiers depuis le dossier local pour les musiques
         registry.addResourceHandler("/musics/**")
-                .addResourceLocations("file:C:/Users/beni.sonkpian/Documents/BoomplayApp_spring_boot_flutter/boomplay/src/uploads/music/");
-
-        // Chemin pour les images de musique
-        registry.addResourceHandler("/musics/images/**")
-                .addResourceLocations("file:C:/Users/beni.sonkpian/Documents/BoomplayApp_spring_boot_flutter/boomplay/src/uploads/music/images/");
-
-        // Chemin pour les vidéos
-        registry.addResourceHandler("/videos/files/**")
-                .addResourceLocations("file:C:/Users/beni.sonkpian/Documents/BoomplayApp_spring_boot_flutter/boomplay/src/uploads/videos/");
+                .addResourceLocations(
+                        "file:C:/Users/jerome.gbossa/Desktop/Highfive-G4/Developpement-web/SPRING/BoomplayApp/boomplay/src/uploads/musics/");
     }
 
     @Bean
@@ -29,15 +22,17 @@ public class WebConfig implements WebMvcConfigurer {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/musics/**") // Appliquer CORS aux fichiers musicaux
-                        .allowedOrigins("*") // Remplacez par l'origine de votre application Flutter
+                // Appliquer CORS aux chemins API
+                registry.addMapping("/api/**")
+                        .allowedOrigins("*") // Remplacez par l'origine Flutter
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(false);
-                
-                registry.addMapping("/videos/**") // Appliquer CORS aux fichiers vidéo
-                        .allowedOrigins("*") // Remplacez par l'origine de votre application Flutter
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+
+                // Appliquer CORS aux fichiers musicaux si nécessaire
+                registry.addMapping("/musics/**")
+                        .allowedOrigins("*") // Remplacez par l'origine Flutter
+                        .allowedMethods("GET", "POST")
                         .allowedHeaders("*")
                         .allowCredentials(false);
             }

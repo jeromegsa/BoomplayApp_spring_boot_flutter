@@ -5,6 +5,7 @@ class Music {
   final String category;
   final int duration;
   final String url;
+  final String imageUrl;
 
   Music({
     required this.id,
@@ -13,6 +14,7 @@ class Music {
     required this.category,
     required this.duration,
     required this.url,
+    required this.imageUrl,
   });
 
   // Factory method to create a Music instance from JSON
@@ -24,6 +26,7 @@ class Music {
       category: json['category'] ?? 'Unknown Category', // Valeur par défaut pour category
       duration: json['duration'] ?? 0, // Utiliser 0 si duration est null
       url: json['url'] ?? '', // Utiliser une chaîne vide si url est null
+      imageUrl: json['imageUrl'] ?? '', // Utiliser une chaîne vide si url est null
     );
   }
 }
