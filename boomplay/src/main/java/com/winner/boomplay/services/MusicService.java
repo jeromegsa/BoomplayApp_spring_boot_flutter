@@ -18,8 +18,8 @@ public class MusicService {
     @Autowired
     private MusicRepository musicRepository;
 
-    private final String audioDirectory = "C:\\Users\\jerome.gbossa\\Documents\\BoomplayApp_spring_boot_flutter\\boomplay\\src\\uploads\\musics"; // Chemin absolu
-    private final String imageDirectory = "C:\\Users\\jerome.gbossa\\Documents\\BoomplayApp_spring_boot_flutter\\boomplay\\src\\uploads\\musics\\images"; // Chemin absolu
+    private final String audioDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\musics"; // Chemin absolu
+    private final String imageDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\musics\\images"; // Chemin absolu
 
     public List<Music> findAll() {
         return musicRepository.findAll();
