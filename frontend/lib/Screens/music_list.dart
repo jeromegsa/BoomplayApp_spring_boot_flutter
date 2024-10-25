@@ -87,7 +87,7 @@ class MusicList extends StatelessWidget {
           Navigator.pushReplacementNamed(context, '/add-music');
         },
         backgroundColor: const Color(0xffff735c),
-        child: const Icon(Icons.pause, size: 30, color: Colors.white),
+        child: const Icon(Icons.add, size: 30, color: Colors.white),
       ),
     );
   }

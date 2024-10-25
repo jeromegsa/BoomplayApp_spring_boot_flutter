@@ -91,12 +91,37 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Télécharger Musique',
-            style: TextStyle(color: Colors.white, fontSize: 24),
+            'BOOM PLAY',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 50,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        toolbarHeight: 100,
+        toolbarHeight: 190,
         backgroundColor: const Color(0xffff735c),
+        flexibleSpace: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 100),
+            Center(
+              child: Text(
+                'Votre plateforme de musique préférée, connectez-vous et amusez-vous!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
