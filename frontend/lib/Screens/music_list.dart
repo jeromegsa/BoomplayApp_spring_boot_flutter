@@ -12,7 +12,7 @@ class MusicList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:   AppBar(
-        title: const Text('Boomplay Home'),
+        title: const Text('Boomplay Home',style: TextStyle(color: Colors.white),),
         backgroundColor: const Color(0xffff735c),
 
         actions:[

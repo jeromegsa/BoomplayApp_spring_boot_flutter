@@ -1,7 +1,7 @@
-// ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
 import 'package:flutter/material.dart';
+import 'package:frontend/Screens/delayedAnimation.dart';
 import 'package:frontend/services/music_service.dart'; // Assurez-vous d'importer le service
 
 class UploadMusicScreen extends StatefulWidget {
@@ -10,51 +10,16 @@ class UploadMusicScreen extends StatefulWidget {
 }
 
 class _UploadMusicScreenState extends State<UploadMusicScreen> {
-  final _formKey = GlobalKey<FormState>();
-  String? title;
-  String? artist;
-  String? category;
-  int? duration;
+  final MusicService _musicService = MusicService(); // Instanciation du service
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController artistController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
+  final TextEditingController durationController = TextEditingController();
+
   html.File? audioFile;
   html.File? imageFile;
-  final MusicService _musicService = MusicService(); // Instanciation du service
 
-  Future<void> _uploadMusic() async {
-    if (_formKey.currentState!.validate() && audioFile != null && imageFile != null) {
-      try {
-        final responseData = await _musicService.uploadMusic(
-          title: title!,
-          artist: artist!,
-          category: category!,
-          duration: duration!,
-          audioFile: audioFile!,
-          imageFile: imageFile!,
-        );
-
-        // Affichage du message de succès
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData)));
-
-        // Vider les champs
-        _clearForm();
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-      }
-    }
-  }
-
-  void _clearForm() {
-    setState(() {
-      title = null;
-      artist = null;
-      category = null;
-      duration = null;
-      audioFile = null;
-      imageFile = null;
-    });
-    _formKey.currentState?.reset(); // Réinitialiser le formulaire
-  }
-
-  void _pickAudioFile() {
+  Future<void> _pickAudioFile() async {
     html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
     uploadInput.accept = 'audio/*';
     uploadInput.click();
@@ -68,7 +33,7 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
     });
   }
 
-  void _pickImageFile() {
+  Future<void> _pickImageFile() async {
     html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
     uploadInput.accept = 'image/*';
     uploadInput.click();
@@ -82,53 +47,206 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
     });
   }
 
+  Future<void> _uploadMusic() async {
+    if (audioFile != null && imageFile != null) {
+      try {
+        final responseData = await _musicService.uploadMusic(
+          title: titleController.text,
+          artist: artistController.text,
+          category: categoryController.text,
+          duration: int.parse(durationController.text),
+          audioFile: audioFile!,
+          imageFile: imageFile!,
+        );
+
+        // Affichage du message de succès
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData)));
+
+        // Vider les champs
+        _clearForm();
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Veuillez sélectionner les fichiers audio et image')),
+      );
+    }
+  }
+
+  void _clearForm() {
+    setState(() {
+      titleController.clear();
+      artistController.clear();
+      categoryController.clear();
+      durationController.clear();
+      audioFile = null;
+      imageFile = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Upload Music')),
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Télécharger Musique',
+            style: TextStyle(color: Colors.white, fontSize: 24),
+          ),
+        ),
+        toolbarHeight: 100,
+        backgroundColor: const Color(0xffff735c),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Title'),
-                validator: (value) => value!.isEmpty ? 'Please enter a title' : null,
-                onChanged: (value) => title = value,
+        child: Center(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: 500,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const DelayedAnimation(
+                    delay: 5000,
+                    child: Text(
+                      'Télécharger Musique',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xffff735c),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  DelayedAnimation(
+                    delay: 500,
+                    child: TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        labelText: 'Titre',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  DelayedAnimation(
+                    delay: 1000,
+                    child: TextField(
+                      controller: artistController,
+                      decoration: InputDecoration(
+                        labelText: 'Artiste',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  DelayedAnimation(
+                    delay: 1500,
+                    child: TextField(
+                      controller: categoryController,
+                      decoration: InputDecoration(
+                        labelText: 'Catégorie',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  DelayedAnimation(
+                    delay: 2000,
+                    child: TextField(
+                      controller: durationController,
+                      decoration: InputDecoration(
+                        labelText: 'Durée (en secondes)',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  DelayedAnimation(
+                    delay: 2500,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.audiotrack, color: Colors.white),
+                      label: Text(
+                        audioFile == null ? 'Sélectionner le fichier audio' : 'Audio sélectionné',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xffff735c),
+                        minimumSize: const Size(300, 50),
+                      ),
+                      onPressed: _pickAudioFile,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  DelayedAnimation(
+                    delay: 3000,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.image, color: Colors.white),
+                      label: Text(
+                        imageFile == null ? 'Sélectionner le fichier image' : 'Image sélectionnée',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xffff735c),
+                        minimumSize: const Size(300, 50),
+                      ),
+                      onPressed: _pickImageFile,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  DelayedAnimation(
+                    delay: 3500,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.file_upload, color: Colors.white),
+                      label: const Text('Télécharger Musique', style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xffff735c),
+                        minimumSize: const Size(300, 50),
+                      ),
+                      onPressed: _uploadMusic,
+                    ),
+                  ),
+                ],
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Artist'),
-                validator: (value) => value!.isEmpty ? 'Please enter an artist' : null,
-                onChanged: (value) => artist = value,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Category'),
-                validator: (value) => value!.isEmpty ? 'Please enter a category' : null,
-                onChanged: (value) => category = value,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Duration (in seconds)'),
-                validator: (value) => value!.isEmpty ? 'Please enter a duration' : null,
-                keyboardType: TextInputType.number,
-                onChanged: (value) => duration = int.tryParse(value),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _pickAudioFile,
-                child: const Text('Pick Audio File'),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _pickImageFile,
-                child: const Text('Pick Image File'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _uploadMusic,
-                child: const Text('Upload Music'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
