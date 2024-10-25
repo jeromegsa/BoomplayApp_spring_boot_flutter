@@ -25,7 +25,7 @@ public class Music {
     private String category;
     private Integer duration;
     private String url;
-    private String image_url;
+    private String imageUrl;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
