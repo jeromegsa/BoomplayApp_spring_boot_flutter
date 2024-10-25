@@ -1,8 +1,8 @@
-import 'dart:async'; // Add this import
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:frontend/services/music_service.dart'; // Assurez-vous d'importer le service
 
 class UploadMusicScreen extends StatefulWidget {
   @override
@@ -17,51 +17,41 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
   int? duration;
   html.File? audioFile;
   html.File? imageFile;
+  final MusicService _musicService = MusicService(); // Instanciation du service
 
   Future<void> _uploadMusic() async {
     if (_formKey.currentState!.validate() && audioFile != null && imageFile != null) {
-      final uri = Uri.parse('http://127.0.0.1:8080/api/music/upload'); 
-      var request = http.MultipartRequest('POST', uri)
-        ..fields['title'] = title!
-        ..fields['artist'] = artist!
-        ..fields['category'] = category!
-        ..fields['duration'] = duration!.toString();
-
       try {
-        // Read audio file as bytes
-        final audioBytes = await _readFileAsBytes(audioFile!);
-        request.files.add(http.MultipartFile.fromBytes('audio', audioBytes, filename: audioFile!.name));
+        final responseData = await _musicService.uploadMusic(
+          title: title!,
+          artist: artist!,
+          category: category!,
+          duration: duration!,
+          audioFile: audioFile!,
+          imageFile: imageFile!,
+        );
 
-        // Read image file as bytes
-        final imageBytes = await _readFileAsBytes(imageFile!);
-        request.files.add(http.MultipartFile.fromBytes('image', imageBytes, filename: imageFile!.name));
+        // Affichage du message de succès
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData)));
 
-        final response = await request.send();
-        if (response.statusCode == 200) {
-          // Music added successfully
-          final responseData = await response.stream.bytesToString();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData)));
-        } else {
-          // Error adding music
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error adding music')));
-        }
+        // Vider les champs
+        _clearForm();
       } catch (e) {
-        print(e);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Unexpected error: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
       }
     }
   }
 
-  Future<List<int>> _readFileAsBytes(html.File file) async {
-    final completer = Completer<List<int>>(); // This should now be recognized
-    final reader = html.FileReader();
-
-    reader.onLoadEnd.listen((e) {
-      completer.complete(reader.result as List<int>);
+  void _clearForm() {
+    setState(() {
+      title = null;
+      artist = null;
+      category = null;
+      duration = null;
+      audioFile = null;
+      imageFile = null;
     });
-
-    reader.readAsArrayBuffer(file);
-    return completer.future;
+    _formKey.currentState?.reset(); // Réinitialiser le formulaire
   }
 
   void _pickAudioFile() {

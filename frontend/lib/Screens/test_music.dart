@@ -109,7 +109,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: NetworkImage(currentMusic.url), // Replace with album cover URL
+                    image: NetworkImage(currentMusic.imageUrl), // Replace with album cover URL
                     fit: BoxFit.cover,
                   ),
                 ),
