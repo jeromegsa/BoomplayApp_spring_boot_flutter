@@ -54,7 +54,7 @@ public class DataGeneratorService {
                 music.setArtist(faker.artist().name());
                 music.setCategory(faker.music().genre());
                 music.setDuration(faker.number().numberBetween(180, 300)); 
-                music.setUrl(faker.internet().url());
+                // music.setUrl(faker.internet().url());
                 music.setUser(user);
                 music.setCreatedAt(LocalDateTime.now());
                 music.setUpdatedAt(LocalDateTime.now());

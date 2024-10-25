@@ -6,7 +6,7 @@ class AudioPlayerScreen extends StatefulWidget {
   final List<Music> musics;
   final int initialIndex;
 
-  AudioPlayerScreen({required this.musics, required this.initialIndex});
+  const AudioPlayerScreen({super.key, required this.musics, required this.initialIndex});
 
   @override
   _AudioPlayerScreenState createState() => _AudioPlayerScreenState();
@@ -67,7 +67,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
     final currentMusic = widget.musics[currentIndex];
     
     return Scaffold(
-      backgroundColor: Color(0xFFF2F2F2),
+      backgroundColor: const Color(0xFFF2F2F2),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -86,17 +86,17 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               
               // Song Title & Artist
               Text(
                 currentMusic.title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 currentMusic.artist,
                 style: TextStyle(
@@ -104,7 +104,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                   color: Colors.grey[600],
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               // Progress Bar (This can be updated to show actual progress)
               Slider(
@@ -119,7 +119,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.skip_previous, size: 36),
+                    icon: const Icon(Icons.skip_previous, size: 36),
                     onPressed: _previousMusic,
                   ),
                   IconButton(
@@ -131,7 +131,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                     onPressed: _isPlaying ? _pauseMusic : () => _playMusic(currentMusic.url),
                   ),
                   IconButton(
-                    icon: Icon(Icons.skip_next, size: 36),
+                    icon: const Icon(Icons.skip_next, size: 36),
                     onPressed: _nextMusic,
                   ),
                 ],

@@ -6,9 +6,29 @@ import 'package:frontend/services/api_service.dart';
 class MusicList extends StatelessWidget {
   final ApiService apiService = ApiService();
 
+  MusicList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:   AppBar(
+        title: const Text('Boomplay Home'),
+        backgroundColor: const Color(0xffff735c),
+
+        actions:[
+          ElevatedButton(child: const Text("Musics"),
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed('/musics');
+                  }
+          ),
+           ElevatedButton(child: const Text("Vidéos"),
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed('/videos');
+                  }
+          )
+        ]
+
+      ),
       body: FutureBuilder<List<Music>>(
         future: apiService.getMusics(),
         builder: (context, snapshot) {
@@ -112,7 +132,7 @@ class MusicList extends StatelessWidget {
             ),
           ),
           subtitle: Text(music.artist),
-          trailing: Icon(
+          trailing: const Icon(
              Icons.favorite ,
             color: Colors.grey,
           ),

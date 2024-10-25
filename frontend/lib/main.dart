@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Screens/add_music.dart';
+
 import 'package:frontend/Screens/music_list.dart';
 import 'package:frontend/services/auth_service.dart';
 
@@ -8,7 +8,7 @@ import 'Screens/home.dart';
 
 void main() {
    WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const MyForm(),
         '/': (context) => const AuthGuard(child: Home()),
         '/musics': (context) => AuthGuard(child: MusicList()),
-        '/add-music': (context) => AuthGuard(child: AddMusicScreen()),
+        // '/add-music': (context) => AuthGuard(child: AddMusicScreen()),
       },
     );
   }
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
 class AuthGuard extends StatelessWidget {
   final Widget child;
 
-  const AuthGuard({Key? key, required this.child}) : super(key: key);
+  const AuthGuard({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
