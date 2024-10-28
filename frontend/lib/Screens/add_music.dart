@@ -58,6 +58,10 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
           audioFile: audioFile!,
           imageFile: imageFile!,
         );
+        setState(() {
+           Navigator.of(context).pushReplacementNamed('/musics');
+        });
+        
 
         // Affichage du message de succès
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData)));
