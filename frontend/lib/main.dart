@@ -3,6 +3,7 @@ import 'package:frontend/Screens/add_music.dart';
 import 'package:frontend/Screens/add_video.dart';
 import 'package:frontend/Screens/music_list.dart';
 import 'package:frontend/Screens/register.dart';
+import 'package:frontend/Screens/videos_list.dart';
 import 'package:frontend/services/auth_service.dart';
 
 import 'Screens/form_page.dart';

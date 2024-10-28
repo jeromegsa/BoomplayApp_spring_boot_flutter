@@ -59,11 +59,16 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   }
 
   void _playMusic(String url) async {
+  try {
     await _audioPlayer.play(UrlSource(url));
     setState(() {
       _isPlaying = true;
     });
+  } catch (e) {
+    print('Error playing audio: $e');
   }
+}
+
 
   void _pauseMusic() async {
     await _audioPlayer.pause();
