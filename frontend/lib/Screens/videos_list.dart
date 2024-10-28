@@ -94,8 +94,6 @@ class VideoList extends StatelessWidget {
   }
 
   Widget buildVideoCard(Video video, BuildContext context, List<Video> videos, int index) {
-    // Imprimer l'URL de l'image
-    print('Image URL: ${video.imageUrl}');
 
     return GestureDetector(
       onTap: () {
