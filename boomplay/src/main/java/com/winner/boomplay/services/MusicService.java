@@ -48,7 +48,7 @@ public class MusicService {
         music.setArtist(artist);
         music.setCategory(category);
         music.setDuration(duration);
-        music.setUrl(audioUrl); // URL publique du fichier audio
+        music.setUrl(audioUrl); 
         music.setImageUrl(imageUrl); // URL publique de l'image
 
         // Sauvegarde de l'objet Music

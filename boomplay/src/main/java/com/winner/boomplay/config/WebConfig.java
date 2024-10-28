@@ -49,6 +49,13 @@ public class WebConfig implements WebMvcConfigurer {
                         .allowedMethods("GET")
                         .allowedHeaders("*")
                         .allowCredentials(false);
+
+                // Appliquer CORS aux fichiers vidéo si nécessaire
+                registry.addMapping("/videos/**")
+                        .allowedOrigins("*") // Remplacez par l'origine Flutter
+                        .allowedMethods("GET")
+                        .allowedHeaders("*")
+                        .allowCredentials(false);
             }
         };
     }
