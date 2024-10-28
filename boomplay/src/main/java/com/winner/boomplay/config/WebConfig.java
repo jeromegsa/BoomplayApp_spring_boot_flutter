@@ -14,7 +14,12 @@ public class WebConfig implements WebMvcConfigurer {
         // Servir les fichiers depuis le dossier local pour les musiques
         registry.addResourceHandler("/musics/**")
                 .addResourceLocations(
-                        "file:C:/Users/jerome.gbossa/Desktop/Highfive-G4/Developpement-web/SPRING/BoomplayApp/boomplay/src/uploads/musics/");
+                        "file:C:\\Users\\beni.sonkpian\\Documents\\BoomplayApp_spring_boot_flutter\\boomplay\\src\\uploads\\music\\");
+
+        // Servir les fichiers depuis le dossier local pour les vidéos
+        registry.addResourceHandler("/videos/**")
+                .addResourceLocations(
+                        "file:C:\\Users\\beni.sonkpian\\Documents\\BoomplayApp_spring_boot_flutter\\boomplay\\src\\uploads\\videos\\");
     }
 
     @Bean
@@ -33,6 +38,13 @@ public class WebConfig implements WebMvcConfigurer {
                 registry.addMapping("/musics/**")
                         .allowedOrigins("*") // Remplacez par l'origine Flutter
                         .allowedMethods("GET", "POST")
+                        .allowedHeaders("*")
+                        .allowCredentials(false);
+
+                // Appliquer CORS aux fichiers vidéo si nécessaire
+                registry.addMapping("/videos/**")
+                        .allowedOrigins("*") // Remplacez par l'origine Flutter
+                        .allowedMethods("GET")
                         .allowedHeaders("*")
                         .allowCredentials(false);
             }

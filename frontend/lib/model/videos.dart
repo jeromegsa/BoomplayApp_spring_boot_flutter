@@ -4,6 +4,7 @@ class Video {
   final String category;
   final int duration; 
   final String url;
+  final String imageUrl;
 
   Video({
     required this.id,
@@ -11,6 +12,7 @@ class Video {
     required this.category,
     required this.duration,
     required this.url,
+    required this.imageUrl,
   });
 
   // Factory method to create a Video instance from JSON
@@ -21,6 +23,7 @@ class Video {
       category: json['category'] ?? 'Unknown Category', // Valeur par défaut pour category
       duration: json['duration'] ?? 0, // Utiliser 0 si duration est null
       url: json['url'] ?? '', // Utiliser une chaîne vide si url est null
+      imageUrl: json['image_url'] ?? '', // Utiliser une chaîne vide si url est null
     );
   }
 }

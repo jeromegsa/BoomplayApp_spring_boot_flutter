@@ -112,17 +112,14 @@ class MyFormState extends State<MyForm> {
                               controller: emailController,
                               decoration: InputDecoration(
                                 labelText: 'Email',
-                                prefixIcon: const Icon(Icons.mail,
-                                    color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.mail, color: Colors.redAccent),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -145,17 +142,14 @@ class MyFormState extends State<MyForm> {
                               controller: passwordController,
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                prefixIcon: const Icon(Icons.lock,
-                                    color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                      color: Colors.redAccent, width: 2),
+                                  borderSide: const BorderSide(color: Colors.redAccent, width: 2),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -202,13 +196,11 @@ class MyFormState extends State<MyForm> {
                                         content: Text('Connexion réussie !'),
                                       ),
                                     );
-                                    Navigator.pushReplacementNamed(
-                                        context, '/');
+                                    Navigator.pushReplacementNamed(context, '/');
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content:
-                                            Text('Identifiants incorrects'),
+                                        content: Text('Identifiants incorrects'),
                                       ),
                                     );
                                   }
@@ -221,17 +213,24 @@ class MyFormState extends State<MyForm> {
                               children: [
                                 Text(
                                   'Soumettre',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(width: 8),
-                                Icon(
-                                  Icons.send,
-                                  color: Colors.white,
-                                ),
+                                Icon(Icons.send, color: Colors.white),
                               ],
                             ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        // Texte cliquable
+                        GestureDetector(
+                          onTap: () {
+                            // Redirection vers la page d'enregistrement
+                            Navigator.pushNamed(context, '/register');
+                          },
+                          child: const Text(
+                            'Avez-vous un compte ? Enregistrez-vous',
+                            style: TextStyle(fontSize: 16, color: Colors.blue, fontStyle: FontStyle.italic),
                           ),
                         ),
                       ],

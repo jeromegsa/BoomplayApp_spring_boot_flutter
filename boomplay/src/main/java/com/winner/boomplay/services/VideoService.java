@@ -19,8 +19,8 @@ public class VideoService {
     @Autowired
     private VideoRepository videoRepository;
     // Répertoires où les fichiers sont sauvegardés
-    private final String videoDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\videos";
-    private final String imageDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\videos\\images";
+    private final String videoDirectory = "C:\\Users\\beni.sonkpian\\Documents\\BoomplayApp_spring_boot_flutter\\boomplay\\src\\uploads\\videos";
+    private final String imageDirectory = "C:\\Users\\beni.sonkpian\\Documents\\BoomplayApp_spring_boot_flutter\\boomplay\\src\\uploads\\videos\\images";
 
     // URL de base pour l'accès public
     private final String baseUrl = "http://localhost:8080"; // Remplacez par votre URL réelle si différent
@@ -61,6 +61,7 @@ public class VideoService {
 
 
         // Création d'un nouveau nom de fichier avec l'extension
+        
         String fileName = System.currentTimeMillis() + "_" + originalFilename;
         Path filePath = Paths.get(directory, fileName);
 

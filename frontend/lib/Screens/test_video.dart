@@ -29,12 +29,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initializeVideoController() {
-    String videoUrl = "http://localhost:8080/api/videos/files/${widget.videos[currentIndex].url}";
+    String videoUrl = widget.videos[currentIndex].url;
+
     _videoController = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
       ..initialize().then((_) {
         if (mounted) {
           setState(() {});
-          _playVideo(); 
+          _playVideo();
         }
       }).catchError((error) {
         print("Error initializing video: $error");
@@ -88,62 +89,90 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Video Player
-              _videoController.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _videoController.value.aspectRatio,
-                      child: VideoPlayer(_videoController),
-                    )
-                  : const CircularProgressIndicator(),
+        child: SingleChildScrollView( // Ajout de SingleChildScrollView pour le défilement
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Video Player
+                _videoController.value.isInitialized
+                    ? AspectRatio(
+                        aspectRatio: _videoController.value.aspectRatio,
+                        child: VideoPlayer(_videoController),
+                      )
+                    : const Center(child: CircularProgressIndicator()),
 
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              // Video Title
-              Text(
-                widget.videos[currentIndex].title,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                widget.videos[currentIndex].category,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey[600],
-                ),
-              ),
-              const SizedBox(height: 30),
-
-              // Playback Controls
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.skip_previous, size: 36),
-                    onPressed: _previousVideo,
+                // Video Title
+                Text(
+                  widget.videos[currentIndex].title,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  IconButton(
-                    icon: Icon(
-                      _isPlaying ? Icons.pause : Icons.play_arrow,
-                      size: 64,
-                      color: Colors.red,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  widget.videos[currentIndex].category,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 30),
+
+                // Playback Controls
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.skip_previous, size: 36),
+                      onPressed: _previousVideo,
                     ),
-                    onPressed: _isPlaying ? _pauseVideo : _playVideo,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.skip_next, size: 36),
-                    onPressed: _nextVideo,
-                  ),
-                ],
-              ),
-            ],
+                    IconButton(
+                      icon: Icon(
+                        _isPlaying ? Icons.pause : Icons.play_arrow,
+                        size: 64,
+                        color: Colors.red,
+                      ),
+                      onPressed: _isPlaying ? _pauseVideo : _playVideo,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.skip_next, size: 36),
+                      onPressed: _nextVideo,
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // Progress Bar
+                ValueListenableBuilder<VideoPlayerValue>(
+                  valueListenable: _videoController,
+                  builder: (context, value, child) {
+                    return Column(
+                      children: [
+                        Slider(
+                          min: 0.0,
+                          max: value.duration.inSeconds.toDouble(),
+                          value: value.position.inSeconds.toDouble(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              _videoController.seekTo(Duration(seconds: newValue.toInt()));
+                            });
+                          },
+                        ),
+                        Text(
+                          "${value.position.inMinutes}:${(value.position.inSeconds.remainder(60)).toString().padLeft(2, '0')} / ${value.duration.inMinutes}:${(value.duration.inSeconds.remainder(60)).toString().padLeft(2, '0')}",
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

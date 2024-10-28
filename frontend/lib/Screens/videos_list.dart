@@ -57,7 +57,7 @@ class VideoList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  '${videos.length} videos',
+                  '${videos.length} vidéos',
                   style: const TextStyle(
                     fontSize: 15,
                     color: Colors.grey,
@@ -66,15 +66,16 @@ class VideoList extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Expanded(
-                child: ListView.builder(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 1, // Change aspect ratio to be square
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
                   itemCount: videos.length,
                   itemBuilder: (context, index) {
-                    return buildVideoItem(
-                      videos[index],
-                      context,
-                      videos,
-                      index,
-                    );
+                    return buildVideoCard(videos[index], context, videos, index);
                   },
                 ),
               ),
@@ -84,7 +85,7 @@ class VideoList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/add-video'); // Ajustez si vous avez une page pour ajouter des vidéos
+          Navigator.pushReplacementNamed(context, '/add-video');
         },
         backgroundColor: const Color(0xffff735c),
         child: const Icon(Icons.add, size: 30, color: Colors.white),
@@ -92,49 +93,63 @@ class VideoList extends StatelessWidget {
     );
   }
 
-  Widget buildVideoItem(Video video, BuildContext context, List<Video> videos, int index) {
+  Widget buildVideoCard(Video video, BuildContext context, List<Video> videos, int index) {
+    // Imprimer l'URL de l'image
+    print('Image URL: ${video.imageUrl}');
+
     return GestureDetector(
       onTap: () {
-        // Passer toute la liste de vidéos et l'index à l'écran de lecture vidéo
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => VideoPlayerScreen(videos: videos, initialIndex: index), // Remplacez par votre écran de vidéo
+            builder: (context) => VideoPlayerScreen(videos: videos, initialIndex: index),
           ),
         );
       },
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 5),
-        decoration: BoxDecoration(
+      child: Card(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 4.0,
-              offset: Offset(0, 2),
+        ),
+        elevation: 0, // Remove shadow
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.network(
+                video.imageUrl,
+                width: double.infinity,
+                height: double.infinity, // Take the full height
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Center(child: Icon(Icons.error));
+                },
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.play_circle_fill,
+                    color: Colors.white,
+                    size: 60,
+                  ),
+                  onPressed: () {
+                    // Ajouter une action si nécessaire
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VideoPlayerScreen(videos: videos, initialIndex: index),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
           ],
-        ),
-        child: ListTile(
-          leading: const Icon(
-            Icons.play_circle_fill,
-            color: Colors.grey,
-            size: 40,
-          ),
-          title: Text(
-            video.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 18,
-            ),
-          ),
-          subtitle: Text(video.category), // Vous pouvez changer cela selon votre modèle
-          trailing: const Icon(
-            Icons.favorite,
-            color: Colors.grey,
-          ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         ),
       ),
     );
