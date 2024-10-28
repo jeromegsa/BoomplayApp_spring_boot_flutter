@@ -51,4 +51,27 @@ class MusicService {
     reader.readAsArrayBuffer(file);
     return completer.future;
   }
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }
