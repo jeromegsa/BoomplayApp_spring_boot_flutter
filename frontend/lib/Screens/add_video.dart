@@ -82,6 +82,9 @@ class _VideoUploadScreenState extends State<VideoUploadScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Vidéo téléchargée avec succès : $response')),
       );
+
+      // Redirection vers la liste des vidéos
+      Navigator.pushReplacementNamed(context, '/videos');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erreur lors du téléchargement : $e')),
@@ -252,13 +255,13 @@ class _VideoUploadScreenState extends State<VideoUploadScreen> {
                     delay: 3000,
                     child: ElevatedButton.icon(
                       icon: const Icon(Icons.file_upload, color: Colors.white),
+                      label: const Text('Télécharger la vidéo',
+                          style: TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xffff735c),
                         minimumSize: const Size(300, 50),
                       ),
                       onPressed: uploadVideo,
-                      label: const Text('Télécharger la vidéo',
-                          style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 ],

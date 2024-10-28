@@ -1,8 +1,7 @@
 import 'dart:html' as html;
-
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/delayedAnimation.dart';
-import 'package:frontend/services/music_service.dart'; // Assurez-vous d'importer le service
+import 'package:frontend/services/music_service.dart';
 
 class UploadMusicScreen extends StatefulWidget {
   @override
@@ -10,7 +9,7 @@ class UploadMusicScreen extends StatefulWidget {
 }
 
 class _UploadMusicScreenState extends State<UploadMusicScreen> {
-  final MusicService _musicService = MusicService(); // Instanciation du service
+  final MusicService _musicService = MusicService();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController artistController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
@@ -63,10 +62,11 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
         });
         
 
-        // Affichage du message de succès
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData)));
 
-        // Vider les champs
+        // Redirection vers la liste des musiques après un téléchargement réussi
+        Navigator.pushReplacementNamed(context, '/musics');
+
         _clearForm();
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
