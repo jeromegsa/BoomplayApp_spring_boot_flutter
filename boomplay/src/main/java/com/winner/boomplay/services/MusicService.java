@@ -19,8 +19,8 @@ public class MusicService {
     private MusicRepository musicRepository;
 
     // Répertoires où les fichiers sont sauvegardés
-    private final String audioDirectory = "C:\\Users\\beni.sonkpian\\Documents\\BoomplayApp_spring_boot_flutter\\boomplay\\src\\uploads\\music";
-    private final String imageDirectory = "C:\\Users\\beni.sonkpian\\Documents\\BoomplayApp_spring_boot_flutter\\boomplay\\src\\uploads\\music\\images";
+    private final String audioDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\musics";
+    private final String imageDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\musics\\images";
 
     // URL de base pour l'accès public
     private final String baseUrl = "http://localhost:8080"; 
