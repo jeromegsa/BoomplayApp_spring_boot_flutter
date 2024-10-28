@@ -30,11 +30,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const MyForm(),
         '/': (context) => const AuthGuard(child: Home()),
         '/videos': (context) =>  AuthGuard(child: VideoList()),
-
         '/musics': (context) => AuthGuard(child: MusicList()),
         '/add-music': (context) => AuthGuard(child: UploadMusicScreen()),
         '/add-video': (context) => AuthGuard(child: VideoUploadScreen()),
-        '/videos': (context) => AuthGuard(child: VideoList()),
         '/register':(context)=> const Register()
         // '/add-music': (context) => AuthGuard(child: AddMusicScreen()),
       },
