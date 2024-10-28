@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Screens/test_video.dart';
+import 'package:frontend/Screens/play_video.dart';
 import 'package:frontend/model/videos.dart';
 import 'package:frontend/services/api_service.dart';
 

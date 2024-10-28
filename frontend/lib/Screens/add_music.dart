@@ -73,7 +73,7 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Veuillez sélectionner les fichiers audio et image')),
+      SnackBar(content: Text('Veuillez sélectionner les fichiers audio et image')),
       );
     }
   }

@@ -175,7 +175,9 @@ class _HomeState extends State<Home> {
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                         Navigator.of(context).pushReplacementNamed('/videos');
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
                         padding: const EdgeInsets.symmetric(
