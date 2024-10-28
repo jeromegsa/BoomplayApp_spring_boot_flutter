@@ -24,7 +24,6 @@ public class MusicService {
 
     // URL de base pour l'accès public
     private final String baseUrl = "http://localhost:8080"; 
-
     public List<Music> findAll() {
         return musicRepository.findAll();
     }
@@ -74,7 +73,7 @@ public class MusicService {
         String fileName = System.currentTimeMillis() + "_" + originalFilename;
         Path filePath = Paths.get(directory, fileName);
         
-        Files.createDirectories(filePath.getParent()); // Crée les dossiers si nécessaire
+        Files.createDirectories(filePath.getParent()); 
         Files.write(filePath, file.getBytes());
     
         // Retourne une URL publique basée sur la configuration

@@ -13,7 +13,6 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController artistController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
-  final TextEditingController durationController = TextEditingController();
 
   html.File? audioFile;
   html.File? imageFile;
@@ -53,7 +52,7 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
           title: titleController.text,
           artist: artistController.text,
           category: categoryController.text,
-          duration: int.parse(durationController.text),
+          duration: 10, // Valeur par défaut de 10 secondes
           audioFile: audioFile!,
           imageFile: imageFile!,
         );
@@ -79,7 +78,6 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
       titleController.clear();
       artistController.clear();
       categoryController.clear();
-      durationController.clear();
       audioFile = null;
       imageFile = null;
     });
@@ -176,27 +174,6 @@ class _UploadMusicScreenState extends State<UploadMusicScreen> {
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  DelayedAnimation(
-                    delay: 2000,
-                    child: TextField(
-                      controller: durationController,
-                      decoration: InputDecoration(
-                        labelText: 'Durée (en secondes)',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xffff735c), width: 2),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      keyboardType: TextInputType.number,
                     ),
                   ),
                   const SizedBox(height: 20),

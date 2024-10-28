@@ -54,16 +54,16 @@ class MusicList extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  '${musics.length} songs - ${calculateTotalDuration(musics)} min',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //   child: Text(
+              //     '${musics.length} songs - ${calculateTotalDuration(musics)} min',
+              //     style: const TextStyle(
+              //       fontSize: 15,
+              //       color: Colors.grey,
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
@@ -87,7 +87,7 @@ class MusicList extends StatelessWidget {
           Navigator.pushReplacementNamed(context, '/add-music');
         },
         backgroundColor: const Color(0xffff735c),
-        child: const Icon(Icons.pause, size: 30, color: Colors.white),
+        child: const Icon(Icons.add, size: 30, color: Colors.white),
       ),
     );
   }
@@ -142,9 +142,9 @@ class MusicList extends StatelessWidget {
     );
   }
 
-  String calculateTotalDuration(List<Music> musics) {
-    // Calculer la somme des durées
-    int totalDuration = musics.fold(0, (sum, music) => sum + music.duration);
-    return totalDuration.toString(); // Retourne la durée totale sous forme de chaîne
-  }
+  // String calculateTotalDuration(List<Music> musics) {
+  //   // Calculer la somme des durées
+  //   // int totalDuration = musics.fold(0, (sum, music) => sum + music.duration);
+  //   // return totalDuration.toString(); // Retourne la durée totale sous forme de chaîne
+  // }
 }
