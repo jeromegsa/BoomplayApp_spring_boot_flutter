@@ -108,7 +108,7 @@ class VideoList extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        elevation: 0, // Remove shadow
+        elevation: 0,
         child: Stack(
           children: [
             ClipRRect(
@@ -116,7 +116,7 @@ class VideoList extends StatelessWidget {
               child: Image.network(
                 video.imageUrl,
                 width: double.infinity,
-                height: double.infinity, // Take the full height
+                height: double.infinity, 
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return const Center(child: Icon(Icons.error));

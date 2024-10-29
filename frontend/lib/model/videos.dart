@@ -2,7 +2,7 @@ class Video {
   final int id;
   final String title;
   final String category;
-  final int duration; 
+  // final int duration; 
   final String url;
   final String imageUrl;
 
@@ -10,7 +10,7 @@ class Video {
     required this.id,
     required this.title,
     required this.category,
-    required this.duration,
+    // required this.duration,
     required this.url,
     required this.imageUrl,
   });
@@ -21,7 +21,7 @@ class Video {
       id: json['id'] ?? 0, // Utiliser 0 comme valeur par défaut si l'id est null
       title: json['title'] ?? 'No Title', // Utiliser 'No Title' si title est null
       category: json['category'] ?? 'Unknown Category', // Valeur par défaut pour category
-      duration: json['duration'] ?? 0, // Utiliser 0 si duration est null
+      // duration: json['duration'] ?? 0, // Utiliser 0 si duration est null
       url: json['url'] ?? '', // Utiliser une chaîne vide si url est null
       imageUrl: json['image_url'] ?? '', // Utiliser une chaîne vide si url est null
     );

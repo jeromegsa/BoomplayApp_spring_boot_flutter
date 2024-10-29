@@ -34,12 +34,12 @@ public class VideoController {
     @PostMapping("/upload")
     public ResponseEntity<String> uploadVideo(@RequestParam("title") String title,
             @RequestParam("category") String category,
-            @RequestParam("duration") Integer duration,
+            // @RequestParam("duration") Integer duration,
             @RequestParam("video") MultipartFile video_,
             @RequestParam("image") MultipartFile image) {
         try {
             // Appel à la méthode du service pour enregistrer les fichiers et les données
-            Video video = videoService.saveVideoWithFiles(video_, image, title, category, duration);
+            Video video = videoService.saveVideoWithFiles(video_, image, title, category);
             return ResponseEntity.ok("video ajoutée avec succès : " + video.getTitle());
         } catch (IOException e) {
             e.printStackTrace();

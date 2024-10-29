@@ -7,7 +7,7 @@ class VideoService {
   Future<String> uploadVideo({
     required String title,
     required String category,
-    required int duration,
+    // required int duration,
     File? videoFile,
     Uint8List? videoBytes,
     File? imageFile,
@@ -16,8 +16,8 @@ class VideoService {
     final uri = Uri.parse('http://127.0.0.1:8080/api/videos/upload'); 
     var request = http.MultipartRequest('POST', uri)
       ..fields['title'] = title
-      ..fields['category'] = category
-      ..fields['duration'] = duration.toString();
+      ..fields['category'] = category;
+      // ..fields['duration'] = duration.toString();
 
     // Ajouter le fichier vidéo ou les octets
     if (videoFile != null) {

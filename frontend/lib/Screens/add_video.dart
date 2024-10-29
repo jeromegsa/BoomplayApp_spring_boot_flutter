@@ -16,7 +16,7 @@ class _VideoUploadScreenState extends State<VideoUploadScreen> {
   final VideoService _videoService = VideoService();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
-  final TextEditingController durationController = TextEditingController();
+  // final TextEditingController durationController = TextEditingController();
 
   File? videoFile;
   File? imageFile;
@@ -63,7 +63,7 @@ class _VideoUploadScreenState extends State<VideoUploadScreen> {
       final response = await _videoService.uploadVideo(
         title: titleController.text,
         category: categoryController.text,
-        duration: int.parse(durationController.text),
+        // duration: int.parse(durationController.text),
         videoFile: videoFile,
         videoBytes: videoBytes,
         imageFile: imageFile,
@@ -73,7 +73,7 @@ class _VideoUploadScreenState extends State<VideoUploadScreen> {
       // Clear input fields after successful upload
       titleController.clear();
       categoryController.clear();
-      durationController.clear();
+      // durationController.clear();
       videoFile = null;
       imageFile = null;
       videoBytes = null;
@@ -195,28 +195,28 @@ class _VideoUploadScreenState extends State<VideoUploadScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  DelayedAnimation(
-                    delay: 1500,
-                    child: TextField(
-                      controller: durationController,
-                      decoration: InputDecoration(
-                        labelText: 'Durée en secondes',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                              color: Color(0xffff735c), width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                              color: Color(0xffff735c), width: 2),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  // DelayedAnimation(
+                  //   delay: 1500,
+                  //   child: TextField(
+                  //     // controller: durationController,
+                  //     decoration: InputDecoration(
+                  //       labelText: 'Durée en secondes',
+                  //       enabledBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(12),
+                  //         borderSide: const BorderSide(
+                  //             color: Color(0xffff735c), width: 2),
+                  //       ),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(12),
+                  //         borderSide: const BorderSide(
+                  //             color: Color(0xffff735c), width: 2),
+                  //       ),
+                  //       filled: true,
+                  //       fillColor: Colors.white,
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
                   DelayedAnimation(
                     delay: 2000,
                     child: ElevatedButton.icon(

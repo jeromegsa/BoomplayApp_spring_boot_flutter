@@ -1,18 +1,17 @@
 package com.winner.boomplay.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-
-import com.winner.boomplay.models.Video;
-import com.winner.boomplay.repository.VideoRepository;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.winner.boomplay.models.Video;
+import com.winner.boomplay.repository.VideoRepository;
 
 @Service
 public class VideoService {
@@ -23,14 +22,14 @@ public class VideoService {
     private final String imageDirectory = "C:\\Users\\jerome.gbossa\\Desktop\\Highfive-G4\\Developpement-web\\SPRING\\BoomplayApp\\boomplay\\src\\uploads\\videos\\images";
 
     // URL de base pour l'accès public
-    private final String baseUrl = "http://localhost:8080"; // Remplacez par votre URL réelle si différent
+    private final String baseUrl = "http://localhost:8080"; 
 
     public List<Video> findAll() {
         return videoRepository.findAll();
     }
 
     public Video saveVideoWithFiles(MultipartFile video, MultipartFile image, String title,
-            String category, Integer duration) throws IOException {
+            String category) throws IOException {
         // Sauvegarde des fichiers
         String videoUrl = saveFile(video, videoDirectory, "/videos/");
         String image_url = saveFile(image, imageDirectory, "/videos/images/");
@@ -39,7 +38,7 @@ public class VideoService {
         Video video_ = new Video();
         video_.setTitle(title);
         video_.setCategory(category);
-        video_.setDuration(duration);
+        // video_.setDuration(duration);
         video_.setUrl(videoUrl); // URL publique du fichier video
         video_.setImage_url(image_url); // URL publique de l'image
 
